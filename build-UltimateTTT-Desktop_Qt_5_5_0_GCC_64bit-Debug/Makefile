@@ -49,9 +49,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../UltimateTTT/main.cpp \
-		../UltimateTTT/mainwindow.cpp moc_mainwindow.cpp
+		../UltimateTTT/mainwindow.cpp \
+		../UltimateTTT/strategy.cpp moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		strategy.o \
 		moc_mainwindow.o
 DIST          = ../../../../CompGr/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../CompGr/Qt/5.5/gcc_64/mkspecs/common/unix.conf \
@@ -183,8 +185,10 @@ DIST          = ../../../../CompGr/Qt/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../CompGr/Qt/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		../../../../CompGr/Qt/5.5/gcc_64/mkspecs/features/yacc.prf \
 		../../../../CompGr/Qt/5.5/gcc_64/mkspecs/features/lex.prf \
-		../UltimateTTT/UltimateTTT.pro ../UltimateTTT/mainwindow.h ../UltimateTTT/main.cpp \
-		../UltimateTTT/mainwindow.cpp
+		../UltimateTTT/UltimateTTT.pro ../UltimateTTT/mainwindow.h \
+		../UltimateTTT/strategy.h ../UltimateTTT/main.cpp \
+		../UltimateTTT/mainwindow.cpp \
+		../UltimateTTT/strategy.cpp
 QMAKE_TARGET  = UltimateTTT
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = UltimateTTT
@@ -498,8 +502,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../UltimateTTT/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../UltimateTTT/main.cpp ../UltimateTTT/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../UltimateTTT/mainwindow.h ../UltimateTTT/strategy.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../UltimateTTT/main.cpp ../UltimateTTT/mainwindow.cpp ../UltimateTTT/strategy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../UltimateTTT/mainwindow.ui $(DISTDIR)/
 
 
@@ -631,6 +635,19 @@ moc_mainwindow.cpp: ../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QMainWind
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qicon.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QPushButton \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QFrame \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QGridLayout \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/QSignalMapper \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qsignalmapper.h \
+		../UltimateTTT/strategy.h \
 		../UltimateTTT/mainwindow.h
 	/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/bin/moc $(DEFINES) -I/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/mkspecs/linux-g++ -I/home/srinidhi/IIITD/Sem5/ArtInt/Project/UT3_proj/UltimateTTT -I/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/include -I/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/include/QtWidgets -I/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/include/QtGui -I/home/srinidhi/IIITD/Sem5/CompGr/Qt/5.5/gcc_64/include/QtCore -I. ../UltimateTTT/mainwindow.h -o moc_mainwindow.cpp
 
@@ -758,6 +775,19 @@ main.o: ../UltimateTTT/main.cpp ../UltimateTTT/mainwindow.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qicon.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QPushButton \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QFrame \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QGridLayout \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/QSignalMapper \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qsignalmapper.h \
+		../UltimateTTT/strategy.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
@@ -873,49 +903,24 @@ mainwindow.o: ../UltimateTTT/mainwindow.cpp ../UltimateTTT/mainwindow.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/QVariant \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QAction \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qaction.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QApplication \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qapplication.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qcoreapplication.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qeventloop.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qguiapplication.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qinputmethod.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QButtonGroup \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qbuttongroup.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QHeaderView \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qheaderview.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qabstractitemmodel.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qitemselectionmodel.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtGui/qvalidator.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qregularexpression.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qslider.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractslider.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qstyle.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qtabbar.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qrubberband.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QMenuBar \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qmenubar.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qmenu.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QPushButton \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QStatusBar \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QToolBar \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qtoolbar.h \
-		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QWidget
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QFrame \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qframe.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/QGridLayout \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/QSignalMapper \
+		../../../../CompGr/Qt/5.5/gcc_64/include/QtCore/qsignalmapper.h \
+		../UltimateTTT/strategy.h \
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../UltimateTTT/mainwindow.cpp
+
+strategy.o: ../UltimateTTT/strategy.cpp ../UltimateTTT/strategy.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o strategy.o ../UltimateTTT/strategy.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
