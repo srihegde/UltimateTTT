@@ -16,10 +16,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    strategy.cpp
+    strategy.cpp \
+    scoretracker.cpp
 
 HEADERS  += mainwindow.h \
-    strategy.h
+    strategy.h \
+    scoretracker.h
 
 FORMS    += \
     mainwindow.ui
