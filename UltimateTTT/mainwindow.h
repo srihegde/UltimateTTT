@@ -23,7 +23,7 @@ private:
     QFrame *frames[9];
     int grid[9][9];
     int validFrame[9];
-    int turn, frameNum;     // turn to decide 'X' or 'O' and frameNum for appropriate frame to consider in a turn.
+    int frameNum;     // turn to decide 'X' or 'O' and frameNum for appropriate frame to consider in a turn.
     Strategy *strategy;
     ScoreTracker *scorer;
 

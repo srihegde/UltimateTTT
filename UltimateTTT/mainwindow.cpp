@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     initFrames();
     initBoxes();
-    turn = 0;
     frameNum = -1;
     memset(grid, 0, sizeof(grid));
     memset(validFrame, 0, sizeof(validFrame));
@@ -87,46 +86,34 @@ void MainWindow::fillBoxes(int n)
 
     if(boxes[n/9][n%9]->text() != "O" && boxes[n/9][n%9]->text() != "X" && (frameNum == -1 || (n/9) == frameNum))
     {
-        if(turn)
-        {
-            boxes[n/9][n%9]->setText("X");
-            grid[n/9][n%9] = 2;
-            if(!validFrame[n/9])
-                status = scorer->updateScoreP1(grid[n/9]);
-            if(status == 1)
-                validFrame[n/9] = 1;
-        }
-        else
-        {
-            boxes[n/9][n%9]->setText("O");
-            grid[n/9][n%9] = 1;
-            if(!validFrame[n/9])
-                status = scorer->updateScoreP2(grid[n/9]);
-            if(status == 1)
-                validFrame[n/9] = 2;
-        }
+        boxes[n/9][n%9]->setText("X");
+        grid[n/9][n%9] = 1;
+        if(!validFrame[n/9])
+            status = scorer->updateScoreP1(grid[n/9]);
+        if(status == 1)
+            validFrame[n/9] = 1;
+        if(isFilled(n/9) && !validFrame[n/9])
+            validFrame[n/9] = -1;
 
-        turn = (turn + 1)%2;
         frameNum = n%9;
 
-    // Finding strategy
+        // Finding strategy
+        int tmpFrame[9];
+        for (int i = 0; i < 9; ++i)
+            tmpFrame[i] = validFrame[i];
 
-//    int result = strategy->minimax(grid);
-//    int result = strategy->alphaBeta(grid);
-//    int result = strategy->monteCarlo(grid);
+        int result = strategy->aiMove(grid, frameNum, tmpFrame);
 
-//    if(turn)
-//    {
-//        boxes[result/9][result%9]->setText("X");
-//        grid[result/9][result%9] = 2;
-//    }
-//    else
-//    {
-//        boxes[result/9][result%9]->setText("O");
-//        grid[result/9][result%9] = 1;
-//    }
+        boxes[result/9][result%9]->setText("O");
+        grid[result/9][result%9] = 2;
+        if(!validFrame[result/9])
+            status = scorer->updateScoreP2(grid[result/9]);
+        if(status == 1)
+            validFrame[result/9] = 2;
+        if(isFilled(result/9) && (!validFrame[result/9]))
+            validFrame[result/9] = -1;
 
-//    turn = (turn + 1)%2;
+        frameNum = result%9;
 
         //For debugging purpose
         printGrid();
@@ -140,17 +127,17 @@ void MainWindow::fillBoxes(int n)
         }
 
     int win = scorer->checkWin(validFrame);
-    if(win == 1)
-    {
-        flag = 1;
-        printf("Player 1 Won the game !!!\n");
-        printf("Scores:\nP1: %d  P2: %d\n", scorer->getScoreP1(), scorer->getScoreP2());
-        on_actionNew_Game_triggered();
-    }
-    else if(win == 2)
+    if(win == 2)
     {
         flag = 1;
         printf("Player 2 Won the game !!!\n");
+        printf("Scores:\nP1: %d  P2: %d\n", scorer->getScoreP1(), scorer->getScoreP2());
+        on_actionNew_Game_triggered();
+    }
+    else if(win == 1)
+    {
+        flag = 1;
+        printf("Player 1 Won the game !!!\n");
         printf("Scores:\nP1: %d  P2: %d\n", scorer->getScoreP1(), scorer->getScoreP2());
         on_actionNew_Game_triggered();
     }
@@ -165,10 +152,10 @@ void MainWindow::fillBoxes(int n)
 
 void MainWindow::on_actionNew_Game_triggered()
 {
-    turn = 0;
     frameNum = -1;
     scorer->refresh();
     memset(grid, 0, sizeof(grid));
+    memset(validFrame, 0, sizeof(validFrame));
 
     for (int i = 0; i < 9; ++i)
         for (int j = 0; j < 9; ++j)
