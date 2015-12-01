@@ -95,7 +95,10 @@ void MainWindow::fillBoxes(int n)
         if(isFilled(n/9) && !validFrame[n/9])
             validFrame[n/9] = -1;
 
-        frameNum = n%9;
+        if(isFilled(n%9))
+            frameNum = -1;
+        else
+            frameNum = n%9;
 
         // Finding strategy
         int tmpFrame[9];
