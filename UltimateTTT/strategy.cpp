@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <ctime>
 
 using namespace std;
 
@@ -17,6 +18,8 @@ int Strategy::aiMove(int grid[9][9], int frameno, int validFrame[])
     int maxs = -10000, index;
     rootPosition.clear();
 
+    clock_t start;
+    start = clock();
     // Solve by Minimax
 //    minimax(grid, frameno, 1, 0, validFrame);
 
@@ -25,6 +28,8 @@ int Strategy::aiMove(int grid[9][9], int frameno, int validFrame[])
 
     // Solve by Monte Carlo Tree Search
 //    monteCarlo(grid, frameno, 1, 0);
+
+    duration = (clock() - start) / (double) CLOCKS_PER_SEC;
 
     for (int i = 0; i < rootPosition.size(); ++i) {
         if(maxs < rootPosition[i].first)
@@ -37,6 +42,11 @@ int Strategy::aiMove(int grid[9][9], int frameno, int validFrame[])
     return (rootPosition[index].second);
 }
 
+double Strategy::getDuration()
+{
+    return duration;
+}
+
 bool Strategy::isFilled(int grid[9][9], int n)
 {
     for (int i = 0; i < 9; ++i) {
@@ -44,6 +54,17 @@ bool Strategy::isFilled(int grid[9][9], int n)
             return false;
     }
     return true;
+}
+
+int Strategy::calcUtil(int grid[9][9],int frame,int turn)
+{
+    int cnt1 = 0, cnt2 = 0;
+    for (int i = 0; i < 9; ++i) {
+        if(grid[frame][i] == 1) cnt1++;
+        else if(grid[frame][i] == 2) cnt2++;
+    }
+    if(turn) return cnt2;
+    return cnt1;
 }
 
 int Strategy::minimax(int grid[9][9], int frameno, int turn, int depth, int validFrame[9])
@@ -65,7 +86,8 @@ int Strategy::minimax(int grid[9][9], int frameno, int turn, int depth, int vali
             return 0;
     }
 
-    if(depth > 5) return -10;
+    if(depth > 5 && frameno != -1) return calcUtil(grid, frameno, turn);
+    else if(depth > 5 && frameno == -1) return 0;
 
     vector<int> scores;
     int status = 0;
@@ -211,7 +233,8 @@ int Strategy::alphaBeta(int grid[9][9], int frameno, int turn, int depth, int va
             return 0;
     }
 
-    if(depth > 5) return -10;
+    if(depth > 5 && frameno != -1) return calcUtil(grid, frameno, turn);
+    else if(depth > 5 && frameno == -1) return 0;
 
     vector<int> scores;
     int status = 0;

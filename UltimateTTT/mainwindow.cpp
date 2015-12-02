@@ -170,6 +170,10 @@ void MainWindow::fillBoxes(int n)
         printf("Scores:\nP1: %d  P2: %d\n", scorer->getScoreP1(), scorer->getScoreP2());
         on_actionNew_Game_triggered();
     }
+
+    duration = strategy->getDuration();
+//    printf("Size: %lu",sizeof(grid));
+    printf("Time: %lf\n",duration);
 }
 
 void MainWindow::on_actionNew_Game_triggered()
@@ -178,6 +182,9 @@ void MainWindow::on_actionNew_Game_triggered()
     scorer->refresh();
     memset(grid, 0, sizeof(grid));
     memset(validFrame, 0, sizeof(validFrame));
+
+    boxes[prevResult1/9][prevResult1%9]->setStyleSheet("background-color: pink");
+    boxes[prevResult2/9][prevResult2%9]->setStyleSheet("background-color: pink");
 
     for (int i = 0; i < 9; ++i)
         for (int j = 0; j < 9; ++j)
