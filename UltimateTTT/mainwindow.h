@@ -24,6 +24,7 @@ private:
     int grid[9][9];
     int validFrame[9];
     int frameNum;     // turn to decide 'X' or 'O' and frameNum for appropriate frame to consider in a turn.
+    int prevResult1, prevResult2;
     Strategy *strategy;
     ScoreTracker *scorer;
 

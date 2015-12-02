@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     memset(validFrame, 0, sizeof(validFrame));
     strategy = new Strategy();
     scorer = new ScoreTracker();
+    prevResult1 = prevResult2 = 0;
 
     for (int i = 0; i < 9; ++i) {
         for (int j = 0; j < 9; ++j) {
@@ -61,6 +62,7 @@ void MainWindow::initBoxes()
 
         for (int j = 0; j < 9; ++j) {
             boxes[i][j] = new QPushButton;
+            boxes[i][j]->setStyleSheet("background-color: pink");
             glayout->addWidget(boxes[i][j], j/3, j%3);
         }
 
@@ -86,7 +88,12 @@ void MainWindow::fillBoxes(int n)
 
     if(boxes[n/9][n%9]->text() != "O" && boxes[n/9][n%9]->text() != "X" && (frameNum == -1 || (n/9) == frameNum))
     {
+        boxes[prevResult1/9][prevResult1%9]->setStyleSheet("background-color: pink");
+        boxes[prevResult2/9][prevResult2%9]->setStyleSheet("background-color: pink");
+
+
         boxes[n/9][n%9]->setText("X");
+        boxes[n/9][n%9]->setStyleSheet("background-color: #ffff80");
         grid[n/9][n%9] = 1;
         if(!validFrame[n/9])
             status = scorer->updateScoreP1(grid[n/9]);
@@ -99,6 +106,7 @@ void MainWindow::fillBoxes(int n)
             frameNum = -1;
         else
             frameNum = n%9;
+        prevResult1 = n;
 
         // Finding strategy
         int tmpFrame[9];
@@ -107,7 +115,10 @@ void MainWindow::fillBoxes(int n)
 
         int result = strategy->aiMove(grid, frameNum, tmpFrame);
 
+        printf("Result: %d\n", result);
+
         boxes[result/9][result%9]->setText("O");
+        boxes[result/9][result%9]->setStyleSheet("background-color: #b3ffb3");
         grid[result/9][result%9] = 2;
         if(!validFrame[result/9])
             status = scorer->updateScoreP2(grid[result/9]);
@@ -117,9 +128,17 @@ void MainWindow::fillBoxes(int n)
             validFrame[result/9] = -1;
 
         frameNum = result%9;
+        prevResult2 = result;
 
         //For debugging purpose
         printGrid();
+//        printf("\n Valid Grids: ");
+//        for (int i = 0; i < 9; ++i) {
+//            printf("%d ",validFrame[i]);
+//        }
+//        printf("\n\n");
+
+
     }
 
     for (int i = 0; i < 9; ++i)
